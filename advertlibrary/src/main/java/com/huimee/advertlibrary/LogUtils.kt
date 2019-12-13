@@ -151,13 +151,6 @@ object LogUtils {
                     intent.putExtra("url", bean.tourl)
                     activity.startActivity(intent)
                 }
-//                OkHttpManage.get(bean.click_url,null,object :CallBack{
-//                    override fun onResponse(p0: String?) {
-//                    }
-//
-//                    override fun onError(p0: String?) {
-//                    }
-//                })
 
 
             }
