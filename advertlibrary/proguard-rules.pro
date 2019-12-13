@@ -376,9 +376,20 @@ public void xxxxxx(**);
 -keepclassmembers class * extends de.greenrobot.dao.AbstractDao {
     public static Java.lang.String TABLENAME;
 }
+-keep class **$Properties
+# #  ############### volley混淆  ###############
+# # -------------------------------------------
+-keep class com.android.volley.** {*;}
+-keep class com.android.volley.toolbox.** {*;}
+-keep class com.android.volley.Response$* { *; }
+-keep class com.android.volley.Request$* { *; }
+-keep class com.android.volley.RequestQueue$* { *; }
+-keep class com.android.volley.toolbox.HurlStack$* { *; }
+-keep class com.android.volley.toolbox.ImageLoader$* { *; }
 
-
-
+#jpush极光推送
+-dontwarn cn.jpush.**
+-keep class cn.jpush.** { *; }
 
 #activeandroid
 -keep class com.activeandroid.** { *; }
@@ -389,7 +400,15 @@ public void xxxxxx(**);
 #log4j
 -dontwarn org.apache.log4j.**
 -keep class  org.apache.log4j.** { *;}
+#下面几行 是环信即时通信的代码混淆
+-keep class com.easemob.** {*;}
+-keep class org.jivesoftware.** {*;}
+-dontwarn  com.easemob.**
 
+#融云
+-keepclassmembers class fqcn.of.javascript.interface.for.webview {
+ public *;
+}
 
 -keepattributes Exceptions,InnerClasses
 
@@ -412,7 +431,13 @@ public void xxxxxx(**);
 -dontwarn org.eclipse.jdt.annotation.**
 
 -keep class com.ultrapower.** {*;}
-
+#高徳地图
+-dontwarn com.amap.api.**
+-dontwarn com.a.a.**
+-dontwarn com.autonavi.**
+-keep class com.amap.api.**  {*;}
+-keep class com.autonavi.**  {*;}
+-keep class com.a.a.**  {*;}
 #---------------------------------反射相关的类和方法-----------------------
 
 
