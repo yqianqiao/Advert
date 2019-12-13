@@ -45,7 +45,8 @@ object LogUtils {
         activity: Activity,
         s: String,
         type: Int,
-        height: Int = -1
+        height: Int = -1,
+        img: View? = null
     ) {
         Log.e("height == ", "height = $height")
         this.type = type
@@ -61,7 +62,7 @@ object LogUtils {
                 if (day) ipList.plus(ipList1)
             }
         }
-        getUrl(activity, s)
+        getUrl(activity, s, img)
 
     }
 
@@ -116,7 +117,7 @@ object LogUtils {
                 }
                 view.layoutParams = headParams
                 contentParent.addView(view)
-            }else{
+            } else {
                 decorView.addView(view)
             }
 
@@ -156,13 +157,8 @@ object LogUtils {
         }
     }
 
-    fun initAdvert(activity: Activity) {
 
-        val preferences = activity.getPreferences(Context.MODE_PRIVATE)
-        preferences.edit().putLong("time", System.currentTimeMillis()).apply()
-    }
-
-    private fun getUrl(activity: Activity, s: String) {
+    private fun getUrl(activity: Activity, s: String, img: View? = null) {
         OkHttpManage.sendGetRequest(
             "$url$s&views=$views",
             getUserAgent(activity),
@@ -198,7 +194,19 @@ object LogUtils {
 
                     Log.e("aaa", bean.toString())
 
-                    showImage(activity)
+                    if (img == null) {
+                        showImage(activity)
+                    } else {
+                        img.setOnClickListener {
+                            val intent = Intent(activity, WebViewActivity::class.java)
+                            intent.putExtra("url", bean.tourl)
+                            activity.startActivity(intent)
+                        }
+                        activity.runOnUiThread {
+                            Glide.with(activity).load(bean.imageurl.trim()).into(img as ImageView)
+                        }
+                    }
+
 //                Log.e("aaa",response.body()?.string())
 
 

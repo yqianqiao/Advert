@@ -41,11 +41,8 @@
 -keep public class * extends android.view.View
 -keep public class com.android.vending.licensing.ILicensingService
 -keep class android.support.** {*;}
--keep class com.cecil.okhttp.OkHttpManage{
-    <fields>;
-    <methods>;
-}
--keep class com.cecil.okhttp.CallBack{
+
+-keep com.huimee.advertlibrary.DialogUtils{
     <fields>;
     <methods>;
 }
@@ -59,10 +56,6 @@
 -keepclasseswithmembers class * {
     public <init>(android.content.Context, android.util.AttributeSet);
     public <init>(android.content.Context, android.util.AttributeSet, int);
-}
-#这个主要是在layout 中写的onclick方法android:onclick="onClick"，不进行混淆
--keepclassmembers class * extends android.app.Activity {
-   public void *(android.view.View);
 }
 
 -keepclassmembers class * implements java.io.Serializable {
@@ -268,26 +261,6 @@
     public static **[] values();
     public static ** valueOf(java.lang.String);
 }
-
-#友盟自动更新
--keep public class com.umeng.fb.ui.ThreadView {
-}
--keep public class * extends com.umeng.**
-# 以下包不进行过滤
--keep class com.umeng.** { *; }
-
-
-#-ButterKnife 7.0
- -keep class butterknife.** { *; }
- -dontwarn butterknife.internal.**
- -keep class **$$ViewBinder { *; }
- -keepclasseswithmembernames class * {
-  @butterknife.* <fields>;
- }
- -keepclasseswithmembernames class * {
- @butterknife.* <methods>;
- }
-
 
 #AndFix
 -keep class * extends java.lang.annotation.Annotation
