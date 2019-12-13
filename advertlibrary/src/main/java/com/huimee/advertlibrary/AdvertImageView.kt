@@ -26,10 +26,6 @@ import java.text.SimpleDateFormat
 class AdvertImageView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : ImageView(context, attrs, defStyleAttr) {
-    private val ipList = mutableListOf<String>()
-    private var url = "http://m3.shunyi365.net/s.json?s="
-    private var views: String? = null
-    private lateinit var bean: AdvertBean
 
     fun setImage(activity: Activity, s: String) {
         DialogUtils.showDialog(activity,s,3,-1,this)
