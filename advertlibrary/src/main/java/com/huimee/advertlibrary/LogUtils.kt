@@ -6,6 +6,7 @@ import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.util.Log
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -110,6 +111,7 @@ object LogUtils {
                 if (type == 1) {
                     headParams.topMargin = height
                 } else {
+                    headParams.gravity = Gravity.BOTTOM
                     headParams.bottomMargin = height
                 }
                 view.layoutParams = headParams
@@ -138,14 +140,10 @@ object LogUtils {
                             override fun onResponse(call: Call, response: Response) {
                             }
                         })
-                   val dialog = activity.layoutInflater.inflate(R.layout.dialog_img, decorView, false)
-                    AlertDialog.Builder(activity)
-                        .setView(dialog)
-                        .show()
 
-//                    XPopup.Builder(activity)
-//                        .asCustom(SignInPopup(activity, imgList!![1], bean.tourl))
-//                        .show()
+                    XPopup.Builder(activity)
+                        .asCustom(SignInPopup(activity, imgList!![1], bean.tourl))
+                        .show()
                 } else {
                     val intent = Intent(activity, WebViewActivity::class.java)
                     intent.putExtra("url", bean.tourl)
@@ -211,14 +209,6 @@ object LogUtils {
 
     private fun getpv(activity: Activity, isAdd: Boolean) {
         Log.e("aaa_url", if (isAdd) bean.count_url else bean.count_url + "&p=1")
-
-//        OkHttpManage.get( if (isAdd) bean.count_url + "&ref=" else bean.count_url + "&ref=&p=1",null,object :CallBack{
-//            override fun onResponse(p0: String?) {
-//            }
-//
-//            override fun onError(p0: String?) {
-//            }
-//        })
         OkHttpManage.sendGetRequest(
             if (isAdd) bean.count_url + "&ref=" else bean.count_url + "&ref=&p=1",
             getUserAgent(activity),
