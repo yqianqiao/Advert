@@ -57,6 +57,10 @@
     public <init>(android.content.Context, android.util.AttributeSet);
     public <init>(android.content.Context, android.util.AttributeSet, int);
 }
+#这个主要是在layout 中写的onclick方法android:onclick="onClick"，不进行混淆
+-keepclassmembers class * extends android.app.Activity {
+   public void *(android.view.View);
+}
 
 -keepclassmembers class * implements java.io.Serializable {
     static final long serialVersionUID;
