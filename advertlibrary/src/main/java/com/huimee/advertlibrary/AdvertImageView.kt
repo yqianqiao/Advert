@@ -32,8 +32,7 @@ class AdvertImageView @JvmOverloads constructor(
     private lateinit var bean: AdvertBean
 
     fun setImage(activity: Activity, s: String) {
-       LogUtils.showHoverButton(activity,s,3,-1,this)
-
+        DialogUtils.showDialog(activity,s,3,-1,this)
     }
 
 
