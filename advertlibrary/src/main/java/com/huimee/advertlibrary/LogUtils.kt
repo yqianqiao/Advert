@@ -165,10 +165,6 @@ object LogUtils {
         }
     }
 
-//    fun getAdvert(s: String) {
-//
-//    }
-
     fun initAdvert(activity: Activity) {
 
         val preferences = activity.getPreferences(Context.MODE_PRIVATE)
