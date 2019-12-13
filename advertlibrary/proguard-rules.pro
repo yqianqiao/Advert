@@ -49,7 +49,7 @@
     <fields>;
     <methods>;
 }
--keep com.huimee.advertlibrary.DialogUtils{
+-keep class com.huimee.advertlibrary.DialogUtils{
     <fields>;
     <methods>;
 }
@@ -64,10 +64,7 @@
     public <init>(android.content.Context, android.util.AttributeSet);
     public <init>(android.content.Context, android.util.AttributeSet, int);
 }
-#这个主要是在layout 中写的onclick方法android:onclick="onClick"，不进行混淆
--keepclassmembers class * extends android.app.Activity {
-   public void *(android.view.View);
-}
+
 
 -keepclassmembers class * implements java.io.Serializable {
     static final long serialVersionUID;
@@ -85,10 +82,7 @@
     void *(*Event);
 }
 
--keepclassmembers enum * {
-    public static **[] values();
-    public static ** valueOf(java.lang.String);
-}
+
 -keep class * implements android.os.Parcelable {
   public static final android.os.Parcelable$Creator *;
 }
@@ -119,7 +113,7 @@
 #---------------------------------------------------------------------------------------------------
 #---------------------------------实体类---------------------------------
 #修改成你对应的包名
--keep class [com.cecil].** { *; }
+-keep class [com.huimee.advertlibrary].** { *; }
 
 #---------------------------------第三方包-------------------------------
 
@@ -190,13 +184,7 @@
 ## nineoldandroids-2.4.0.jar
 -keep public class com.nineoldandroids.** {*;}
 
-####################zxing#####################
--keep class com.google.zxing.** {*;}
--dontwarn com.google.zxing.**
-##百度定位
--keep class com.baidu.** {*;}
--keep class vi.com.** {*;}
--dontwarn com.baidu.**
+
 
 #retrofit
 -dontwarn retrofit.**
@@ -224,45 +212,9 @@
 -keepclassmembers enum com.j256.** { *; }
 -keep interface com.j256.**
 -keepclassmembers interface com.j256.** { *; }
-#umeng
-# ========= 友盟 =================
--dontshrink
--dontoptimize
--dontwarn com.google.android.maps.**
--dontwarn android.webkit.WebView
--dontwarn com.umeng.**
--dontwarn com.tencent.weibo.sdk.**
--dontwarn com.facebook.**
 
-
--keep enum com.facebook.**
--keepattributes Exceptions,InnerClasses,Signature
--keepattributes *Annotation*
--keepattributes SourceFile,LineNumberTable
-
--keep public interface com.facebook.**
--keep public interface com.tencent.**
--keep public interface com.umeng.socialize.**
--keep public interface com.umeng.socialize.sensor.**
--keep public interface com.umeng.scrshot.**
-
--keep public class com.umeng.socialize.* {*;}
--keep public class javax.**
--keep public class android.webkit.**
-
--keep class com.facebook.**
--keep class com.umeng.scrshot.**
--keep public class com.tencent.** {*;}
--keep class com.umeng.socialize.sensor.**
-
--keep class com.tencent.mm.sdk.modelmsg.WXMediaMessage {*;}
-
--keep class com.tencent.mm.sdk.modelmsg.** implements com.tencent.mm.sdk.modelmsg.WXMediaMessage$IMediaObject {*;}
-
--keep class im.yixin.sdk.api.YXMessage {*;}
--keep class im.yixin.sdk.api.** implements im.yixin.sdk.api.YXMessage$YXMessageData{*;}
 #下面中括号的地方需要要填你的包名
--keep public class [com.cecil.okhttp].R$*{
+-keep public class [com.huimee.advertlibrary].R$*{
     public static final int *;
 }
 -keepclassmembers class * {
