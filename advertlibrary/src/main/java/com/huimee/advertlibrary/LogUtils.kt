@@ -48,7 +48,7 @@ object LogUtils {
         height: Int = -1,
         img: View? = null
     ) {
-        Log.e("height == ", "height = $height")
+//        Log.e("height == ", "height = $height")
         this.type = type
         this.height = height
         val ipstring = ACache.get(activity).getAsString("ipList")
@@ -132,7 +132,7 @@ object LogUtils {
 
             imageView.setOnClickListener {
                 if (type == 0) {
-                    Log.e("setOnClickListener", bean.click_url)
+//                    Log.e("setOnClickListener", bean.click_url)
                     OkHttpManage.sendGetRequest(bean.click_url,
                         getUserAgent(activity), object : Callback {
                             override fun onFailure(call: Call, e: IOException) {
@@ -164,7 +164,7 @@ object LogUtils {
             getUserAgent(activity),
             object : Callback {
                 override fun onFailure(call: Call, e: IOException) {
-                    Log.e("aaa", e.toString())
+//                    Log.e("aaa", e.toString())
                 }
 
                 override fun onResponse(call: Call, response: Response) {
@@ -173,8 +173,6 @@ object LogUtils {
                         json,
                         object : TypeToken<List<AdvertBean>>() {}.type
                     ) as List<AdvertBean>
-
-
                     bean = shops[0]
                     views = bean.views
                     if (ipList.size == 0) {
@@ -189,10 +187,10 @@ object LogUtils {
                         ipList.add("${bean.ip}_${bean.adsid}_${bean.zoneid}")
                         getpv(activity, true)
                     }
-                    Log.e("ipList_aaa", ipList.toString())
+//                    Log.e("ipList_aaa", ipList.toString())
                     ACache.get(activity).put("ipList", Gson().toJson(ipList))
 
-                    Log.e("aaa", bean.toString())
+//                    Log.e("aaa", bean.toString())
 
                     if (img == null) {
                         showImage(activity)
@@ -206,17 +204,13 @@ object LogUtils {
                             Glide.with(activity).load(bean.imageurl.trim()).into(img as ImageView)
                         }
                     }
-
-//                Log.e("aaa",response.body()?.string())
-
-
                 }
             })
     }
 
 
     private fun getpv(activity: Activity, isAdd: Boolean) {
-        Log.e("aaa_url", if (isAdd) bean.count_url else bean.count_url + "&p=1")
+//        Log.e("aaa_url", if (isAdd) bean.count_url else bean.count_url + "&p=1")
         OkHttpManage.sendGetRequest(
             if (isAdd) bean.count_url + "&ref=" else bean.count_url + "&ref=&p=1",
             getUserAgent(activity),

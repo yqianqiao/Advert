@@ -17,9 +17,4 @@ object DialogUtils {
     ) {
         LogUtils.showHoverButton(activity, s, type, height, img)
     }
-
-    fun a(){
-
-    }
-
 }
