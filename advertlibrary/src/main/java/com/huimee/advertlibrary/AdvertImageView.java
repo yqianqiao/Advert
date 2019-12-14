@@ -23,7 +23,13 @@ public class AdvertImageView extends AppCompatImageView {
         super(context, attrs, defStyleAttr);
     }
 
-    public  void setImage(Activity activity,  String s) {
-        DialogUtils.INSTANCE.showDialog(activity,s,3,-1,this);
+    public void setImage(Activity activity, String s) {
+        DialogUtils.INSTANCE.showDialog(activity, s, 3, -1, this);
+    }
+
+    @Override
+    public void setImageResource(int resId) {
+//        super.setImageResource(resId);
+        DialogUtils.INSTANCE.showDialog((Activity) getContext(), resId+"", 3, -1, this);
     }
 }
