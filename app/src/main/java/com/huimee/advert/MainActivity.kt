@@ -17,7 +17,7 @@ class MainActivity : AppCompatActivity() {
 //        LogUtils.showHoverButton(this,"11365",2,50)
 
 //        image.setImage(this,"11364")
-        LogUtils.showHoverButton(this,"11364",4)
+        LogUtils.showHoverButton(this,"11364",4,0,0,img)
     }
 
     override fun onResume() {

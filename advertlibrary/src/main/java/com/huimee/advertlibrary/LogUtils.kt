@@ -13,6 +13,9 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.ScrollView
+import androidx.annotation.LayoutRes
+import androidx.core.view.contains
 import com.bumptech.glide.Glide
 import com.cecil.okhttp.OkHttpManage
 import com.google.gson.Gson
@@ -24,7 +27,13 @@ import java.io.IOException
 import java.util.*
 import com.google.gson.reflect.TypeToken
 import com.lxj.xpopup.XPopup
+import io.reactivex.Observable
+import io.reactivex.Scheduler
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import java.text.SimpleDateFormat
+import java.util.concurrent.TimeUnit
+import kotlin.concurrent.thread
 
 
 /**
@@ -40,17 +49,21 @@ object LogUtils {
     private val ipList = mutableListOf<String>()
     private var type = -1
     private var height = 0
+    private var time = 0
+    private var isSkip = false
 
     fun showHoverButton(
         activity: Activity,
         s: String,
         type: Int,
-        height: Int = -1,
+        height: Int = 0,
+        time: Int = 0,
         img: View? = null
     ) {
 //        Log.e("height == ", "height = $height")
         this.type = type
         this.height = height
+        this.time = time
         val ipstring = ACache.get(activity).getAsString("ipList")
         if (ipstring != null) {
             val ipList1 = Gson().fromJson(
@@ -81,34 +94,36 @@ object LogUtils {
         }
 
         activity.runOnUiThread {
-            val decorView = activity.window.decorView as FrameLayout
+            //            val decorView = activity.window.decorView as FrameLayout
+            val content = activity.window.decorView.findViewById<FrameLayout>(android.R.id.content)
 
             val view = when (type) {
                 0 -> {
-                    activity.layoutInflater.inflate(R.layout.suspension, decorView, false)
+                    activity.layoutInflater.inflate(R.layout.suspension, content, false)
                 }
                 1 -> {
-                    activity.layoutInflater.inflate(R.layout.top, decorView, false)
+                    activity.layoutInflater.inflate(R.layout.top, content, false)
                 }
                 2 -> {
-                    activity.layoutInflater.inflate(R.layout.bottom, decorView, false)
+                    activity.layoutInflater.inflate(R.layout.bottom, content, false)
                 }
                 else -> {
-                    throw IllegalArgumentException("type Nonstandard")
+                    throw IllegalArgumentException("tpty = $type  img is Null?")
                 }
             }
 
             if (type == 1 || type == 2) {
-                val contentParent = decorView.findViewById<FrameLayout>(android.R.id.content)
+
+//                val contentParent = decorView.findViewById<FrameLayout>(android.R.id.content)
                 val headParams =
                     FrameLayout.LayoutParams(
                         FrameLayout.LayoutParams.MATCH_PARENT,
                         FrameLayout.LayoutParams.WRAP_CONTENT
                     )
-                if (height < 0) {
-                    height =
-                        activity.window.decorView.height - activity.resources.displayMetrics.heightPixels
-                }
+//                if (height < 0) {
+//                    height =
+//                        activity.window.decorView.height - activity.resources.displayMetrics.heightPixels
+//                }
                 if (type == 1) {
                     headParams.topMargin = height
                 } else {
@@ -116,23 +131,28 @@ object LogUtils {
                     headParams.bottomMargin = height
                 }
                 view.layoutParams = headParams
-                contentParent.addView(view)
-            } else {
-                decorView.addView(view)
+                if (time < 10) time = 10
+                Observable.timer(time.toLong(),TimeUnit.SECONDS)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe {
+                        if (!isSkip) {
+                            if (content.contains(view)) {
+                                content.removeView(view)
+                            }
+                        }
+                    }
             }
-
             val imageView = view.findViewById<ImageView>(R.id.image)
-
             Glide.with(activity).load(if (type == 0) imgList?.get(0) else bean.imageurl.trim())
                 .into(imageView)
 
             view.findViewById<ImageView>(R.id.iv_Close).setOnClickListener {
-                decorView.removeView(view)
+                content.removeView(view)
+                isSkip = true
             }
-
             imageView.setOnClickListener {
                 if (type == 0) {
-//                    Log.e("setOnClickListener", bean.click_url)
                     OkHttpManage.sendGetRequest(bean.click_url,
                         getUserAgent(activity), object : Callback {
                             override fun onFailure(call: Call, e: IOException) {
@@ -151,9 +171,8 @@ object LogUtils {
                     activity.startActivity(intent)
                 }
 
-
             }
-//            decorView.addView(view)
+            content.addView(view)
         }
     }
 
@@ -196,6 +215,7 @@ object LogUtils {
                         val intent = Intent(activity, SplashActivity::class.java)
                         intent.putExtra("url", bean.tourl)
                         intent.putExtra("image_url", bean.imageurl)
+                        intent.putExtra("time", if (time < 3) 3 else time)
                         activity.startActivity(intent)
                     } else {
                         if (img == null) {

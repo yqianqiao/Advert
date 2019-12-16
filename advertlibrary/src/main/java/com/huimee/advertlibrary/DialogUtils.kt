@@ -13,8 +13,9 @@ object DialogUtils {
         s: String,
         type: Int,
         height: Int = -1,
+        time: Int = 0,
         img: View? = null
     ) {
-        LogUtils.showHoverButton(activity, s, type, height, img)
+        LogUtils.showHoverButton(activity, s, type, height, time, img)
     }
 }
