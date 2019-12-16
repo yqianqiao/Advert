@@ -192,18 +192,27 @@ object LogUtils {
 
 //                    Log.e("aaa", bean.toString())
 
-                    if (img == null) {
-                        showImage(activity)
+                    if (type == 4) {
+                        val intent = Intent(activity, SplashActivity::class.java)
+                        intent.putExtra("url", bean.tourl)
+                        intent.putExtra("image_url", bean.imageurl)
+                        activity.startActivity(intent)
                     } else {
-                        img.setOnClickListener {
-                            val intent = Intent(activity, WebViewActivity::class.java)
-                            intent.putExtra("url", bean.tourl)
-                            activity.startActivity(intent)
-                        }
-                        activity.runOnUiThread {
-                            Glide.with(activity).load(bean.imageurl.trim()).into(img as ImageView)
+                        if (img == null) {
+                            showImage(activity)
+                        } else {
+                            img.setOnClickListener {
+                                val intent = Intent(activity, WebViewActivity::class.java)
+                                intent.putExtra("url", bean.tourl)
+                                activity.startActivity(intent)
+                            }
+                            activity.runOnUiThread {
+                                Glide.with(activity).load(bean.imageurl.trim())
+                                    .into(img as ImageView)
+                            }
                         }
                     }
+
                 }
             })
     }

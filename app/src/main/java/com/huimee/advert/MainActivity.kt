@@ -16,7 +16,8 @@ class MainActivity : AppCompatActivity() {
 //        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 //        LogUtils.showHoverButton(this,"11365",2,50)
 
-        image.setImage(this,"11364")
+//        image.setImage(this,"11364")
+        LogUtils.showHoverButton(this,"11364",4)
     }
 
     override fun onResume() {
