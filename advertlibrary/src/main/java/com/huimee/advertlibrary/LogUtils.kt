@@ -132,7 +132,7 @@ object LogUtils {
                 }
                 view.layoutParams = headParams
                 if (time < 10) time = 10
-                Observable.timer(time.toLong(),TimeUnit.SECONDS)
+                Observable.timer(time.toLong(), TimeUnit.SECONDS)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe {
@@ -218,9 +218,7 @@ object LogUtils {
                         intent.putExtra("time", if (time < 3) 3 else time)
                         activity.startActivity(intent)
                     } else {
-                        if (img == null) {
-                            showImage(activity)
-                        } else {
+                        if (img != null && type == 3) {
                             img.setOnClickListener {
                                 val intent = Intent(activity, WebViewActivity::class.java)
                                 intent.putExtra("url", bean.tourl)
@@ -230,6 +228,9 @@ object LogUtils {
                                 Glide.with(activity).load(bean.imageurl.trim())
                                     .into(img as ImageView)
                             }
+                        } else {
+                            showImage(activity)
+
                         }
                     }
 
