@@ -15,6 +15,8 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.ScrollView
 import androidx.annotation.LayoutRes
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.view.contains
 import com.bumptech.glide.Glide
 import com.cecil.okhttp.OkHttpManage
@@ -48,7 +50,7 @@ object LogUtils {
     private lateinit var bean: AdvertBean
     private val ipList = mutableListOf<String>()
     private var type = -1
-    private var height = 0
+    private var height = 0f
     private var time = 0
     private var isSkip = false
 
@@ -56,7 +58,7 @@ object LogUtils {
         activity: Activity,
         s: String,
         type: Int,
-        height: Int = 0,
+        height: Float = 0f,
         time: Int = 0,
         img: View? = null
     ) {
@@ -112,8 +114,13 @@ object LogUtils {
                 }
             }
 
-            if (type == 1 || type == 2) {
-
+            if (type ==0){
+                val layout = view.findViewById<ConstraintLayout>(R.id.item)
+                val set = ConstraintSet()
+                set.clone(layout)
+                set.setVerticalBias(R.id.image, height)
+                layout.setConstraintSet(set)
+            }else {
 //                val contentParent = decorView.findViewById<FrameLayout>(android.R.id.content)
                 val headParams =
                     FrameLayout.LayoutParams(
@@ -125,10 +132,10 @@ object LogUtils {
 //                        activity.window.decorView.height - activity.resources.displayMetrics.heightPixels
 //                }
                 if (type == 1) {
-                    headParams.topMargin = height
+                    headParams.topMargin = height.toInt()
                 } else {
                     headParams.gravity = Gravity.BOTTOM
-                    headParams.bottomMargin = height
+                    headParams.bottomMargin = height.toInt()
                 }
                 view.layoutParams = headParams
                 if (time < 10) time = 10
@@ -144,6 +151,7 @@ object LogUtils {
                     }
             }
             val imageView = view.findViewById<ImageView>(R.id.image)
+
             Glide.with(activity).load(if (type == 0) imgList?.get(0) else bean.imageurl.trim())
                 .into(imageView)
 
