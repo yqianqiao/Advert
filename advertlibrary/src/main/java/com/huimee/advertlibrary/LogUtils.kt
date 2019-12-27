@@ -2,40 +2,30 @@ package com.huimee.advertlibrary
 
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.app.AlertDialog
-import android.content.Context
 import android.content.Intent
-import android.util.Log
 import android.view.Gravity
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.ScrollView
-import androidx.annotation.LayoutRes
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.view.contains
 import com.bumptech.glide.Glide
 import com.cecil.okhttp.OkHttpManage
 import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import com.huimee.advertlibrary.Utils.getUserAgent
+import com.lxj.xpopup.XPopup
+import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import okhttp3.Call
 import okhttp3.Callback
 import okhttp3.Response
 import java.io.IOException
-import java.util.*
-import com.google.gson.reflect.TypeToken
-import com.lxj.xpopup.XPopup
-import io.reactivex.Observable
-import io.reactivex.Scheduler
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 import java.text.SimpleDateFormat
+import java.util.*
 import java.util.concurrent.TimeUnit
-import kotlin.concurrent.thread
 
 
 /**
@@ -62,7 +52,7 @@ object LogUtils {
         time: Int = 0,
         img: View? = null
     ) {
-//        Log.e("height == ", "height = $height")
+
         this.type = type
         this.height = height
         this.time = time
@@ -114,13 +104,13 @@ object LogUtils {
                 }
             }
 
-            if (type ==0){
+            if (type == 0) {
                 val layout = view.findViewById<ConstraintLayout>(R.id.item)
                 val set = ConstraintSet()
                 set.clone(layout)
                 set.setVerticalBias(R.id.image, height)
                 layout.setConstraintSet(set)
-            }else {
+            } else {
 //                val contentParent = decorView.findViewById<FrameLayout>(android.R.id.content)
                 val headParams =
                     FrameLayout.LayoutParams(
@@ -187,7 +177,8 @@ object LogUtils {
 
     private fun getUrl(activity: Activity, s: String, img: View? = null) {
         OkHttpManage.sendGetRequest(
-            "$url$s&views=$views",
+            if (views == null)
+                "$url$s" else "$url$s&v=$views",
             getUserAgent(activity),
             object : Callback {
                 override fun onFailure(call: Call, e: IOException) {

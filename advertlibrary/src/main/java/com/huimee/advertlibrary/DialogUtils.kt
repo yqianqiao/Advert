@@ -1,7 +1,11 @@
 package com.huimee.advertlibrary
 
 import android.app.Activity
+import android.util.Log
 import android.view.View
+import com.cecil.okhttp.CallBack
+import com.cecil.okhttp.OkHttpManage
+import com.cecil.okhttp.b
 
 /**
  *   Created by YX on 2019/12/13 17:05.
